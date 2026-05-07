@@ -1,0 +1,65 @@
+---
+import Layout from "../layouts/Layout.astro";
+
+type ProjectCard = {
+  title: string;
+  image: string;
+  rotation: number;
+  width: number;
+  height: number;
+  offset: number;
+};
+
+const imageFiles = [
+  "project (1).jpg",
+  "project (2).jpg",
+  "project (3).jpg",
+  "project (4).jpg",
+  "project (5).jpg",
+  "project (6).jpg",
+  "project (7).jpg",
+];
+
+const seededValue = (seed: number) => {
+  const value = Math.sin(seed * 91.173 + 17.71) * 10000;
+  return value - Math.floor(value);
+};
+
+const cards: ProjectCard[] = imageFiles.map((file, index) => {
+  const baseSeed = index + 1;
+
+  return {
+    title: `Project ${String(index + 1).padStart(2, "0")}`,
+    image: `/media/project-images/${file}`,
+    rotation: Math.round((seededValue(baseSeed) * 40 - 20) * 10) / 10,
+    width: Math.round((seededValue(baseSeed + 10) * 20 + 80) * 10) / 10,
+    height: Math.round((seededValue(baseSeed + 20) * 18 + 72) * 10) / 10,
+    offset: Math.round((seededValue(baseSeed + 30) * 18 - 9) * 10) / 10,
+  };
+});
+---
+
+<Layout title="Projects | Gareth Griffiths" bodyClass="projects-page">
+  <main class="page page--projects">
+    <section class="projects-grid" aria-label="Projects">
+      {
+        cards.map((card) => (
+          <article
+            class="project-card"
+            style={`--card-rotation:${card.rotation}deg; --card-width:${card.width}%; --card-height:${card.height}vw; --card-offset:${card.offset}%;`}
+          >
+            <img
+              class="project-card__image"
+              src={card.image}
+              alt={card.title}
+              loading="lazy"
+            />
+            <div class="project-card__label">
+              <h2>{card.title}</h2>
+            </div>
+          </article>
+        ))
+      }
+    </section>
+  </main>
+</Layout>

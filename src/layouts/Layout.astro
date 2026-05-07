@@ -1,0 +1,146 @@
+---
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  bodyClass?: string;
+}
+
+const {
+  title = "Gareth Griffiths",
+  description = "Minimal portfolio website for Gareth Griffiths.",
+  bodyClass = "",
+} = Astro.props;
+
+const pagePath = Astro.url.pathname;
+
+const navLinks = [
+  { href: "/", label: "Projects" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Inconsolata:wght@400..900&family=Rubik+Glitch&display=swap"
+      rel="stylesheet"
+    />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body class={bodyClass} data-theme="light">
+    <header class="site-header">
+      <a class="site-header__brand" href="/">Gareth Griffiths</a>
+
+      <div class="site-header__actions">
+        <button
+          class="theme-toggle"
+          type="button"
+          aria-label="Switch color theme"
+          aria-pressed="false"
+          data-theme-toggle
+        >
+          <span class="theme-toggle__icon" aria-hidden="true"></span>
+        </button>
+
+        <button
+          class="nav-toggle"
+          type="button"
+          aria-expanded="false"
+          aria-controls="site-navigation"
+          aria-label="Open navigation"
+          data-nav-toggle
+        >
+          <span class="nav-toggle__pie" aria-hidden="true"></span>
+        </button>
+      </div>
+    </header>
+
+    <div class="nav-overlay" id="site-navigation" data-nav-overlay hidden>
+      <nav class="nav-overlay__panel" aria-label="Primary">
+        {
+          navLinks.map((link) => {
+            const isActive = pagePath === link.href;
+
+            return (
+              <a
+                class:list={["nav-overlay__link", { "is-active": isActive }]}
+                href={link.href}
+              >
+                {link.label}
+              </a>
+            );
+          })
+        }
+      </nav>
+    </div>
+
+    <slot />
+
+    <script is:inline>
+      const body = document.body;
+      const navToggle = document.querySelector("[data-nav-toggle]");
+      const navOverlay = document.querySelector("[data-nav-overlay]");
+      const themeToggle = document.querySelector("[data-theme-toggle]");
+      const storedTheme = localStorage.getItem("gg-theme");
+
+      if (storedTheme === "dark") {
+        body.dataset.theme = "dark";
+        themeToggle?.setAttribute("aria-pressed", "true");
+      }
+
+      const setNavigationState = (open) => {
+        if (!navOverlay || !navToggle) {
+          return;
+        }
+
+        navOverlay.hidden = !open;
+        body.classList.toggle("nav-open", open);
+        navToggle.setAttribute("aria-expanded", String(open));
+        navToggle.setAttribute(
+          "aria-label",
+          open ? "Close navigation" : "Open navigation",
+        );
+      };
+
+      navToggle?.addEventListener("click", () => {
+        const isOpen = navToggle.getAttribute("aria-expanded") === "true";
+        setNavigationState(!isOpen);
+      });
+
+      navOverlay?.addEventListener("click", (event) => {
+        if (event.target === navOverlay) {
+          setNavigationState(false);
+        }
+      });
+
+      document.querySelectorAll(".nav-overlay__link").forEach((link) => {
+        link.addEventListener("click", () => setNavigationState(false));
+      });
+
+      window.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          setNavigationState(false);
+        }
+      });
+
+      themeToggle?.addEventListener("click", () => {
+        const nextTheme = body.dataset.theme === "dark" ? "light" : "dark";
+        body.dataset.theme = nextTheme;
+        themeToggle.setAttribute("aria-pressed", String(nextTheme === "dark"));
+        localStorage.setItem("gg-theme", nextTheme);
+      });
+    </script>
+  </body>
+</html>
