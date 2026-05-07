@@ -242,6 +242,7 @@ button {
   position: relative;
   width: clamp(30vw, var(--card-width, 38vw), 47vw);
   flex: 0 0 auto;
+  margin: 5vw;
   border: 1px solid var(--line);
   background: var(--surface);
   overflow: hidden;
