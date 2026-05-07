@@ -195,18 +195,23 @@ button {
 }
 
 .projects-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 1rem;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
   padding-bottom: 2rem;
+}
+
+.projects-row {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(0.75rem, var(--row-gap, 1.6vw), 2.5rem);
+  padding-left: var(--row-offset, 0vw);
 }
 
 .project-card {
   position: relative;
-  width: var(--card-width, 100%);
-  min-height: clamp(18rem, var(--card-height, 72vw), 34rem);
-  margin-left: var(--card-offset, 0%);
+  width: clamp(15vw, var(--card-width, 22vw), 30vw);
+  flex: 0 0 auto;
   border: 1px solid var(--line);
   background: var(--surface);
   overflow: hidden;
@@ -214,15 +219,10 @@ button {
   box-shadow: 0 14px 34px rgba(0, 0, 0, 0.08);
 }
 
-.project-card:nth-child(even) {
-  justify-self: end;
-}
-
 .project-card__image {
   width: 100%;
-  height: 100%;
-  min-height: inherit;
-  object-fit: cover;
+  height: auto;
+  display: block;
   filter: grayscale(100%) contrast(1.08);
 }
 
@@ -313,13 +313,11 @@ button {
   }
 
   .projects-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1.5rem 1rem;
+    gap: 1.5rem;
   }
 
   .project-card {
-    width: var(--card-width, 100%);
-    min-height: clamp(18rem, var(--card-height, 28vw), 30rem);
+    width: clamp(15vw, var(--card-width, 22vw), 30vw);
   }
 
   .about-layout {
@@ -529,6 +527,12 @@ button {
 }
 
 @media (max-width: 720px) {
+  .projects-row {
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    padding-left: 0;
+  }
+
   .page-shell,
   .site-footer,
   .terms {

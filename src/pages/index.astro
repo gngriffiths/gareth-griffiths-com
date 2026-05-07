@@ -6,7 +6,11 @@ type ProjectCard = {
   image: string;
   rotation: number;
   width: number;
-  height: number;
+};
+
+type ProjectRow = {
+  cards: ProjectCard[];
+  gap: number;
   offset: number;
 };
 
@@ -32,10 +36,51 @@ const cards: ProjectCard[] = imageFiles.map((file, index) => {
     title: `Project ${String(index + 1).padStart(2, "0")}`,
     image: `/media/project-images/${file}`,
     rotation: Math.round((seededValue(baseSeed) * 40 - 20) * 10) / 10,
-    width: Math.round((seededValue(baseSeed + 10) * 20 + 80) * 10) / 10,
-    height: Math.round((seededValue(baseSeed + 20) * 18 + 72) * 10) / 10,
-    offset: Math.round((seededValue(baseSeed + 30) * 18 - 9) * 10) / 10,
+    width: Math.round((seededValue(baseSeed + 10) * 15 + 15) * 10) / 10,
   };
+});
+
+const maxRowWidth = 88;
+const maxRowOffset = 22;
+
+const rows = cards.reduce<ProjectRow[]>((allRows, card, index) => {
+  let row = allRows.at(-1);
+
+  if (!row) {
+    row = {
+      cards: [],
+      gap: Math.round((seededValue(index + 40) * 1.8 + 1.2) * 10) / 10,
+      offset: 0,
+    };
+    allRows.push(row);
+  }
+
+  const rowWidth = row.cards.reduce((total, entry) => total + entry.width, 0);
+  const gapWidth = row.cards.length * row.gap;
+  const nextWidth = rowWidth + gapWidth + card.width;
+
+  if (row.cards.length > 0 && nextWidth > maxRowWidth) {
+    const nextRow: ProjectRow = {
+      cards: [card],
+      gap: Math.round((seededValue(index + 40) * 1.8 + 1.2) * 10) / 10,
+      offset: 0,
+    };
+    allRows.push(nextRow);
+    return allRows;
+  }
+
+  row.cards.push(card);
+  return allRows;
+}, []);
+
+rows.forEach((row, index) => {
+  const cardsWidth = row.cards.reduce((total, card) => total + card.width, 0);
+  const contentWidth = cardsWidth + Math.max(0, row.cards.length - 1) * row.gap;
+  const availableOffset = Math.max(
+    0,
+    Math.min(100 - contentWidth, maxRowOffset),
+  );
+  row.offset = Math.round(seededValue(index + 70) * availableOffset * 10) / 10;
 });
 ---
 
@@ -43,21 +88,28 @@ const cards: ProjectCard[] = imageFiles.map((file, index) => {
   <main class="page page--projects">
     <section class="projects-grid" aria-label="Projects">
       {
-        cards.map((card) => (
-          <article
-            class="project-card"
-            style={`--card-rotation:${card.rotation}deg; --card-width:${card.width}%; --card-height:${card.height}vw; --card-offset:${card.offset}%;`}
+        rows.map((row) => (
+          <div
+            class="projects-row"
+            style={`--row-gap:${row.gap}vw; --row-offset:${row.offset}vw;`}
           >
-            <img
-              class="project-card__image"
-              src={card.image}
-              alt={card.title}
-              loading="lazy"
-            />
-            <div class="project-card__label">
-              <h2>{card.title}</h2>
-            </div>
-          </article>
+            {row.cards.map((card) => (
+              <article
+                class="project-card"
+                style={`--card-rotation:${card.rotation}deg; --card-width:${card.width}vw;`}
+              >
+                <img
+                  class="project-card__image"
+                  src={card.image}
+                  alt={card.title}
+                  loading="lazy"
+                />
+                <div class="project-card__label">
+                  <h2>{card.title}</h2>
+                </div>
+              </article>
+            ))}
+          </div>
         ))
       }
     </section>
