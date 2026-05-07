@@ -161,9 +161,9 @@ const cards: ProjectCard[] = imageFiles.map((file, index) => {
 
           for (var i = 0; i < count; i++) {
             var color = COLORS[Math.floor(Math.random() * COLORS.length)];
-            var stemW = Math.random() * 16 + 6;
+            var stemW = Math.random() * 25 + 12;
             var bulbR = stemW / 2;
-            var stemH = Math.random() * 180 + 70;
+            var stemH = Math.random() * 180 + 140;
             var svgW = Math.ceil(stemW + 4);
             var cx = svgW / 2;
             var xPos =
@@ -209,7 +209,7 @@ const cards: ProjectCard[] = imageFiles.map((file, index) => {
             bulbSvg.setAttribute("height", bulbSize);
             bulbSvg.style.position = "absolute";
             bulbSvg.style.left = (cx - bulbR - 1).toFixed(2) + "px";
-            bulbSvg.style.top = (stemH - bulbR).toFixed(2) + "px";
+            bulbSvg.style.top = (stemH - bulbR * 1.7).toFixed(2) + "px";
             var bulbCircle = document.createElementNS(ns, "circle");
             bulbCircle.setAttribute("cx", (bulbSize / 2).toFixed(2));
             bulbCircle.setAttribute("cy", bulbR.toFixed(2));
@@ -237,6 +237,12 @@ const cards: ProjectCard[] = imageFiles.map((file, index) => {
       } else {
         window.addEventListener("load", spawnDrips);
       }
+
+      var resizeTimer;
+      window.addEventListener("resize", function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(spawnDrips, 300);
+      });
     }
   </script>
 </Layout>
