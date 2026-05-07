@@ -68,6 +68,15 @@ const navLinks = [
     </header>
 
     <div class="nav-overlay" id="site-navigation" data-nav-overlay hidden>
+      <button
+        class="nav-overlay__close"
+        type="button"
+        aria-label="Close navigation"
+        data-nav-close
+      >
+        <span class="nav-overlay__close-icon" aria-hidden="true"></span>
+      </button>
+
       <nav class="nav-overlay__panel" aria-label="Primary">
         {
           navLinks.map((link) => {
@@ -92,6 +101,7 @@ const navLinks = [
       const body = document.body;
       const navToggle = document.querySelector("[data-nav-toggle]");
       const navOverlay = document.querySelector("[data-nav-overlay]");
+      const navClose = document.querySelector("[data-nav-close]");
       const themeToggle = document.querySelector("[data-theme-toggle]");
       const storedTheme = localStorage.getItem("gg-theme");
 
@@ -123,6 +133,10 @@ const navLinks = [
         if (event.target === navOverlay) {
           setNavigationState(false);
         }
+      });
+
+      navClose?.addEventListener("click", () => {
+        setNavigationState(false);
       });
 
       document.querySelectorAll(".nav-overlay__link").forEach((link) => {

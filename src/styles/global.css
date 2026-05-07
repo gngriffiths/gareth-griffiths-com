@@ -99,8 +99,7 @@ button {
   width: 3rem;
   height: 3rem;
   padding: 0;
-  border: 1px solid currentColor;
-  border-radius: 999px;
+  border: 0;
   background: transparent;
   display: inline-flex;
   align-items: center;
@@ -109,19 +108,23 @@ button {
 }
 
 .theme-toggle__icon {
-  width: 1.1rem;
-  height: 1.1rem;
-  border-radius: 999px;
-  border: 1px solid currentColor;
-  box-shadow: inset -0.35rem 0 0 currentColor;
+  width: 2.2rem;
+  height: 2.2rem;
+  background-color: currentColor;
+  mask-image: url("/dark-mode.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
 }
 
 .nav-toggle__pie {
-  width: 1.4rem;
-  height: 1.4rem;
-  border-radius: 999px;
-  border: 1px solid currentColor;
-  background: conic-gradient(currentColor 0 78deg, transparent 78deg 360deg);
+  width: 2.8rem;
+  height: 2.8rem;
+  background-color: currentColor;
+  mask-image: url("/menu.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
 }
 
 .nav-overlay {
@@ -130,6 +133,32 @@ button {
   z-index: 25;
   background: var(--overlay);
   color: #ffffff;
+}
+
+.nav-overlay__close {
+  position: absolute;
+  top: 0.85rem;
+  right: 1rem;
+  z-index: 1;
+  width: 3rem;
+  height: 3rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.nav-overlay__close-icon {
+  width: 2.4rem;
+  height: 2.4rem;
+  background-color: currentColor;
+  mask-image: url("/close.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
 }
 
 .nav-overlay__panel {
