@@ -636,3 +636,28 @@ button {
     padding: 1.25rem;
   }
 }
+
+/* ── Paint drip effect (projects page) ─────────────────── */
+
+.page--projects {
+  position: relative;
+}
+
+.page--projects .projects-grid {
+  position: relative;
+  z-index: 1;
+}
+
+.drip-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+  overflow: visible;
+  z-index: 0;
+}
+
+.drip {
+  position: absolute;
+}

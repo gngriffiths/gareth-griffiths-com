@@ -67,7 +67,7 @@ const cards: ProjectCard[] = imageFiles.map((file, index) => {
         projectsGrid.querySelectorAll(".project-card"),
       ).map((card) => {
         const width = randomBetween(30, 47);
-        const rotation = randomBetween(-20, 20);
+        const rotation = randomBetween(-10, 10);
 
         card.style.setProperty("--card-width", `${width}vw`);
         card.style.setProperty("--card-rotation", `${rotation}deg`);
@@ -128,6 +128,115 @@ const cards: ProjectCard[] = imageFiles.map((file, index) => {
       });
 
       projectsGrid.replaceChildren(...rowElements);
+
+      // ── Paint drip effect ──────────────────────────────
+      function spawnDrips() {
+        var page = document.querySelector(".page--projects");
+        if (!page) return;
+
+        var existing = page.querySelector(".drip-layer");
+        if (existing) existing.remove();
+
+        var dripLayer = document.createElement("div");
+        dripLayer.className = "drip-layer";
+        dripLayer.setAttribute("aria-hidden", "true");
+        page.insertBefore(dripLayer, page.firstChild);
+
+        var pageRect = page.getBoundingClientRect();
+        var COLORS = [
+          "#e8001d",
+          "#0047ab",
+          "#ffd700",
+          "#228b22",
+          "#8b00ff",
+          "#ff6600",
+        ];
+
+        document.querySelectorAll(".project-card").forEach(function (card) {
+          var cardRect = card.getBoundingClientRect();
+          var relBottom = cardRect.bottom - pageRect.top;
+          var relMid = cardRect.top + cardRect.height / 2 - pageRect.top;
+          var relLeft = cardRect.left - pageRect.left;
+          var count = Math.floor(Math.random() * 12) + 6;
+
+          for (var i = 0; i < count; i++) {
+            var color = COLORS[Math.floor(Math.random() * COLORS.length)];
+            var stemW = Math.random() * 16 + 6;
+            var bulbR = stemW / 2;
+            var stemH = Math.random() * 180 + 70;
+            var svgW = Math.ceil(stemW + 4);
+            var cx = svgW / 2;
+            var xPos =
+              relLeft + (0.1 + Math.random() * 0.8) * cardRect.width - cx;
+            var delayMs = Math.random() * 2000;
+            var durMs = Math.random() * 12000 + 8000;
+            var timing = {
+              duration: durMs,
+              delay: delayMs,
+              easing: "ease-in-out",
+              fill: "both",
+            };
+
+            var el = document.createElement("div");
+            el.className = "drip";
+            el.style.left = xPos + "px";
+            el.style.top = relMid + "px";
+
+            // Stem SVG — scales on Y from the top
+            var ns = "http://www.w3.org/2000/svg";
+            var stemSvg = document.createElementNS(ns, "svg");
+            stemSvg.setAttribute("width", svgW);
+            stemSvg.setAttribute("height", stemH.toFixed(2));
+            stemSvg.style.display = "block";
+            stemSvg.style.transformOrigin = "50% 0%";
+            var stemRect = document.createElementNS(ns, "rect");
+            stemRect.setAttribute("x", (cx - stemW / 2).toFixed(2));
+            stemRect.setAttribute("y", "0");
+            stemRect.setAttribute("width", stemW.toFixed(2));
+            stemRect.setAttribute("height", stemH.toFixed(2));
+            stemRect.setAttribute("rx", bulbR.toFixed(2));
+            stemRect.setAttribute("fill", color);
+            stemSvg.appendChild(stemRect);
+            stemSvg.animate(
+              [{ transform: "scaleY(0.04)" }, { transform: "scaleY(1)" }],
+              timing,
+            );
+
+            // Bulb SVG — translates to track the stem bottom (no scale)
+            var bulbSize = Math.ceil(bulbR * 2 + 2);
+            var bulbSvg = document.createElementNS(ns, "svg");
+            bulbSvg.setAttribute("width", bulbSize);
+            bulbSvg.setAttribute("height", bulbSize);
+            bulbSvg.style.position = "absolute";
+            bulbSvg.style.left = (cx - bulbR - 1).toFixed(2) + "px";
+            bulbSvg.style.top = (stemH - bulbR).toFixed(2) + "px";
+            var bulbCircle = document.createElementNS(ns, "circle");
+            bulbCircle.setAttribute("cx", (bulbSize / 2).toFixed(2));
+            bulbCircle.setAttribute("cy", bulbR.toFixed(2));
+            bulbCircle.setAttribute("r", bulbR.toFixed(2));
+            bulbCircle.setAttribute("fill", color);
+            bulbSvg.appendChild(bulbCircle);
+            var initialOffset = (stemH * (0.04 - 1)).toFixed(2);
+            bulbSvg.animate(
+              [
+                { transform: "translateY(" + initialOffset + "px)" },
+                { transform: "translateY(0px)" },
+              ],
+              timing,
+            );
+
+            el.appendChild(stemSvg);
+            el.appendChild(bulbSvg);
+            dripLayer.appendChild(el);
+          }
+        });
+      }
+
+      if (document.readyState === "complete") {
+        spawnDrips();
+      } else {
+        window.addEventListener("load", spawnDrips);
+      }
     }
   </script>
 </Layout>
