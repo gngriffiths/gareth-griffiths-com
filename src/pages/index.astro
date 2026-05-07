@@ -4,14 +4,6 @@ import Layout from "../layouts/Layout.astro";
 type ProjectCard = {
   title: string;
   image: string;
-  rotation: number;
-  width: number;
-};
-
-type ProjectRow = {
-  cards: ProjectCard[];
-  gap: number;
-  offset: number;
 };
 
 const imageFiles = [
@@ -24,63 +16,11 @@ const imageFiles = [
   "project (7).jpg",
 ];
 
-const seededValue = (seed: number) => {
-  const value = Math.sin(seed * 91.173 + 17.71) * 10000;
-  return value - Math.floor(value);
-};
-
 const cards: ProjectCard[] = imageFiles.map((file, index) => {
-  const baseSeed = index + 1;
-
   return {
     title: `Project ${String(index + 1).padStart(2, "0")}`,
     image: `/media/project-images/${file}`,
-    rotation: Math.round((seededValue(baseSeed) * 40 - 20) * 10) / 10,
-    width: Math.round((seededValue(baseSeed + 10) * 15 + 15) * 10) / 10,
   };
-});
-
-const maxRowWidth = 88;
-const maxRowOffset = 22;
-
-const rows = cards.reduce<ProjectRow[]>((allRows, card, index) => {
-  let row = allRows.at(-1);
-
-  if (!row) {
-    row = {
-      cards: [],
-      gap: Math.round((seededValue(index + 40) * 1.8 + 1.2) * 10) / 10,
-      offset: 0,
-    };
-    allRows.push(row);
-  }
-
-  const rowWidth = row.cards.reduce((total, entry) => total + entry.width, 0);
-  const gapWidth = row.cards.length * row.gap;
-  const nextWidth = rowWidth + gapWidth + card.width;
-
-  if (row.cards.length > 0 && nextWidth > maxRowWidth) {
-    const nextRow: ProjectRow = {
-      cards: [card],
-      gap: Math.round((seededValue(index + 40) * 1.8 + 1.2) * 10) / 10,
-      offset: 0,
-    };
-    allRows.push(nextRow);
-    return allRows;
-  }
-
-  row.cards.push(card);
-  return allRows;
-}, []);
-
-rows.forEach((row, index) => {
-  const cardsWidth = row.cards.reduce((total, card) => total + card.width, 0);
-  const contentWidth = cardsWidth + Math.max(0, row.cards.length - 1) * row.gap;
-  const availableOffset = Math.max(
-    0,
-    Math.min(100 - contentWidth, maxRowOffset),
-  );
-  row.offset = Math.round(seededValue(index + 70) * availableOffset * 10) / 10;
 });
 ---
 
@@ -88,30 +28,106 @@ rows.forEach((row, index) => {
   <main class="page page--projects">
     <section class="projects-grid" aria-label="Projects">
       {
-        rows.map((row) => (
-          <div
-            class="projects-row"
-            style={`--row-gap:${row.gap}vw; --row-offset:${row.offset}vw;`}
-          >
-            {row.cards.map((card) => (
-              <article
-                class="project-card"
-                style={`--card-rotation:${card.rotation}deg; --card-width:${card.width}vw;`}
-              >
-                <img
-                  class="project-card__image"
-                  src={card.image}
-                  alt={card.title}
-                  loading="lazy"
-                />
-                <div class="project-card__label">
-                  <h2>{card.title}</h2>
-                </div>
-              </article>
-            ))}
+        cards.map((card) => (
+          <div class="projects-row">
+            <article class="project-card">
+              <img
+                class="project-card__image"
+                src={card.image}
+                alt={card.title}
+                loading="lazy"
+              />
+              <div class="project-card__label">
+                <h2>{card.title}</h2>
+              </div>
+            </article>
           </div>
         ))
       }
     </section>
   </main>
+
+  <script is:inline>
+    const projectsGrid = document.querySelector(".projects-grid");
+
+    if (projectsGrid) {
+      const maxRowWidth = 88;
+      const maxRowOffset = 22;
+      const maxCardsPerRow = 2;
+      const roundToTenth = (value) => Math.round(value * 10) / 10;
+      const randomBetween = (min, max) =>
+        roundToTenth(Math.random() * (max - min) + min);
+      const makeRowConfig = () => ({
+        cards: [],
+        gap: randomBetween(1.2, 3),
+        offset: 0,
+      });
+
+      const cards = Array.from(
+        projectsGrid.querySelectorAll(".project-card"),
+      ).map((card) => {
+        const width = randomBetween(30, 47);
+        const rotation = randomBetween(-20, 20);
+
+        card.style.setProperty("--card-width", `${width}vw`);
+        card.style.setProperty("--card-rotation", `${rotation}deg`);
+
+        return { element: card, width };
+      });
+
+      const rows = cards.reduce((allRows, card) => {
+        let row = allRows.at(-1);
+
+        if (!row) {
+          row = makeRowConfig();
+          allRows.push(row);
+        }
+
+        const rowWidth = row.cards.reduce(
+          (total, entry) => total + entry.width,
+          0,
+        );
+        const gapWidth = row.cards.length * row.gap;
+        const nextWidth = rowWidth + gapWidth + card.width;
+
+        if (
+          row.cards.length > 0 &&
+          (row.cards.length >= maxCardsPerRow || nextWidth > maxRowWidth)
+        ) {
+          row = makeRowConfig();
+          allRows.push(row);
+        }
+
+        row.cards.push(card);
+        return allRows;
+      }, []);
+
+      const rowElements = rows.map((row) => {
+        const cardsWidth = row.cards.reduce(
+          (total, card) => total + card.width,
+          0,
+        );
+        const contentWidth =
+          cardsWidth + Math.max(0, row.cards.length - 1) * row.gap;
+        const availableOffset = Math.max(
+          0,
+          Math.min(100 - contentWidth, maxRowOffset),
+        );
+        row.offset = randomBetween(0, availableOffset);
+
+        const rowElement = document.createElement("div");
+        rowElement.className = "projects-row";
+        rowElement.style.setProperty("--row-gap", `${row.gap}vw`);
+        rowElement.style.setProperty("--row-offset", `${row.offset}vw`);
+
+        row.cards.forEach((card) => {
+          rowElement.append(card.element);
+        });
+
+        return rowElement;
+      });
+
+      projectsGrid.replaceChildren(...rowElements);
+    }
+  </script>
 </Layout>
