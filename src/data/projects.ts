@@ -53,6 +53,81 @@ export const projects: Project[] = projectImageFiles.map((file, index) => {
     };
   }
 
+  if (index === 2) {
+    return {
+      slug: "hermes",
+      title: "Hermes",
+      coverImage,
+      videoEmbedUrl: "https://www.youtube.com/embed/CGTUjYUM1RU?rel=0",
+      galleryImages: [
+        "/media/projects/hermes/hermes-1.png",
+        "/media/projects/hermes/hermes-2.png",
+      ],
+      info: "Project information will be added here soon.",
+      description: "Hermes project preview",
+    };
+  }
+
+  if (index === 3) {
+    return {
+      slug: "intel",
+      title: "Intel",
+      coverImage,
+      videoEmbedUrl: "https://www.youtube.com/embed/RNhTFm8NeKU?rel=0",
+      galleryImages: [
+        "/media/projects/intel/intel-1.png",
+        "/media/projects/intel/intel-2.png",
+      ],
+      info: "Project information will be added here soon.",
+      description: "Intel project preview",
+    };
+  }
+
+  if (index === 4) {
+    return {
+      slug: "fiat",
+      title: "Fiat",
+      coverImage,
+      videoEmbedUrl: "https://www.youtube.com/embed/VKkr9eX58R4?rel=0",
+      galleryImages: [
+        "/media/projects/fiat/fiat-1.png",
+        "/media/projects/fiat/fiat-2.png",
+      ],
+      info: "Project information will be added here soon.",
+      description: "Fiat project preview",
+    };
+  }
+
+  if (index === 5) {
+    return {
+      slug: "panasonic",
+      title: "Panasonic",
+      coverImage,
+      videoEmbedUrl: "https://www.youtube.com/embed/LTlpigR52Cc?rel=0",
+      galleryImages: [
+        "/media/projects/panasonic/panasonic-1.png",
+        "/media/projects/panasonic/panasonic-2.png",
+      ],
+      info: "Project information will be added here soon.",
+      description: "Panasonic project preview",
+    };
+  }
+
+  if (index === 6) {
+    return {
+      slug: "bacardi",
+      title: "Bacardi",
+      coverImage,
+      videoEmbedUrl: "https://www.youtube.com/embed/2OGanXTe9KY?rel=0",
+      galleryImages: [
+        "/media/projects/bacardi/bacardi-1.png",
+        "/media/projects/bacardi/bacardi-2.png",
+      ],
+      info: "Project information will be added here soon.",
+      description: "Bacardi project preview",
+    };
+  }
+
   return {
     slug: `project-${number}`,
     title: `Project ${number}`,
