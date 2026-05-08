@@ -1,46 +1,25 @@
 ---
 import Layout from "../layouts/Layout.astro";
-
-type ProjectCard = {
-  title: string;
-  image: string;
-};
-
-const imageFiles = [
-  "project (1).jpg",
-  "project (2).jpg",
-  "project (3).jpg",
-  "project (4).jpg",
-  "project (5).jpg",
-  "project (6).jpg",
-  "project (7).jpg",
-];
-
-const cards: ProjectCard[] = imageFiles.map((file, index) => {
-  return {
-    title: `Project ${String(index + 1).padStart(2, "0")}`,
-    image: `/media/project-images/${file}`,
-  };
-});
+import { projects } from "../data/projects";
 ---
 
 <Layout title="Projects | Gareth Griffiths" bodyClass="projects-page">
   <main class="page page--projects">
     <section class="projects-grid" aria-label="Projects">
       {
-        cards.map((card) => (
+        projects.map((project) => (
           <div class="projects-row">
-            <article class="project-card">
+            <a class="project-card" href={`/projects/${project.slug}`}>
               <img
                 class="project-card__image"
-                src={card.image}
-                alt={card.title}
+                src={project.coverImage}
+                alt={project.description}
                 loading="lazy"
               />
               <div class="project-card__label">
-                <h2>{card.title}</h2>
+                <h2>{project.title}</h2>
               </div>
-            </article>
+            </a>
           </div>
         ))
       }

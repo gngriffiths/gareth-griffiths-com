@@ -262,6 +262,10 @@ button {
   box-shadow: 0 22px 48px rgba(0, 0, 0, 0.16);
 }
 
+.project-card:focus-visible {
+  transform: rotate(var(--card-rotation, 0deg)) scale(1.04);
+}
+
 .project-card__image {
   width: 100%;
   height: auto;
@@ -284,6 +288,144 @@ button {
   font-size: 1rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+body.project-info-open {
+  overflow: hidden;
+}
+
+.page--project-detail {
+  position: relative;
+  padding-top: 0.6rem;
+  padding-bottom: 2rem;
+}
+
+.project-detail__info-trigger,
+.project-info__close {
+  width: 6rem;
+  height: 6rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "Inconsolata", monospace;
+  font-size: 1.15rem;
+  cursor: pointer;
+}
+
+.project-detail__info-trigger img,
+.project-info__close img {
+  width: 3rem;
+  height: 3rem;
+  display: block;
+}
+
+body[data-theme="dark"] .project-detail__info-trigger img,
+body[data-theme="dark"] .project-info__close img {
+  filter: invert(1);
+}
+
+.project-detail__info-trigger {
+  position: relative;
+  z-index: 1;
+}
+
+.project-detail {
+  width: min(100%, 72rem);
+  margin: 0 auto;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.project-detail__title {
+  margin: 0;
+  text-align: center;
+  font-family: "Inconsolata", monospace;
+  font-size: clamp(2.2rem, 7vw, 4.8rem);
+  letter-spacing: -0.08em;
+  line-height: 0.95;
+}
+
+.project-detail__video-shell {
+  width: min(100%, 54rem);
+  margin: 0 auto;
+}
+
+.project-detail__video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.project-detail__video--placeholder {
+  display: grid;
+  place-items: center;
+  min-height: 20rem;
+}
+
+.project-detail__video--placeholder p {
+  margin: 0;
+  font-family: "Inconsolata", monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+
+.project-detail__gallery {
+  display: grid;
+  gap: 1rem;
+}
+
+.project-detail__figure {
+  margin: 0;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.project-detail__image {
+  width: 100%;
+  height: auto;
+}
+
+.project-info {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: var(--bg);
+  color: var(--fg);
+  padding: 1rem;
+}
+
+.project-info__close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+
+.project-info__content {
+  width: min(100%, 42rem);
+  min-height: calc(100vh - 2rem);
+  margin: 0 auto;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+  gap: 1rem;
+}
+
+.project-info__title {
+  margin: 0;
+  font-family: "Inconsolata", monospace;
+  font-size: clamp(2rem, 6vw, 4rem);
+  letter-spacing: -0.08em;
+}
+
+.project-info__content p {
+  margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.7;
 }
 
 .about-layout {
@@ -360,6 +502,21 @@ button {
 
   .project-card {
     width: clamp(15vw, var(--card-width, 22vw), 30vw);
+  }
+
+  .page--project-detail {
+    padding-top: 1rem;
+  }
+
+  .project-detail__gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .project-detail__gallery > :first-child:last-child {
+    max-width: 42rem;
+    width: 100%;
+    justify-self: center;
+    grid-column: 1 / -1;
   }
 
   .about-layout {

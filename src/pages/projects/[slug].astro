@@ -1,0 +1,143 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getProjectBySlug, projects } from "../../data/projects";
+
+export function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const project =
+  Astro.props.project ?? getProjectBySlug(Astro.params.slug ?? "");
+
+if (!project) {
+  return Astro.redirect("/");
+}
+---
+
+<Layout
+  title={`${project.title} | Gareth Griffiths`}
+  description={project.info}
+  bodyClass="project-detail-page"
+>
+  <main class="page page--project-detail">
+    <button
+      class="project-detail__info-trigger"
+      type="button"
+      aria-expanded="false"
+      aria-controls="project-info-panel"
+      data-project-info-open
+    >
+      <img src="/info.svg" alt="" aria-hidden="true" />
+    </button>
+
+    <section class="project-detail" aria-labelledby="project-detail-title">
+      <h1 class="project-detail__title" id="project-detail-title">
+        {project.title}
+      </h1>
+
+      <div class="project-detail__video-shell">
+        {
+          project.videoEmbedUrl ? (
+            <iframe
+              class="project-detail__video"
+              src={project.videoEmbedUrl}
+              title={`${project.title} video`}
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            />
+          ) : (
+            <div class="project-detail__video project-detail__video--placeholder">
+              <p>Video coming soon.</p>
+            </div>
+          )
+        }
+      </div>
+
+      <section
+        class="project-detail__gallery"
+        aria-label={`${project.title} images`}
+      >
+        {
+          project.galleryImages.map((image, index) => (
+            <figure class="project-detail__figure">
+              <img
+                class="project-detail__image"
+                src={image}
+                alt={`${project.title} image ${index + 1}`}
+                loading="lazy"
+              />
+            </figure>
+          ))
+        }
+      </section>
+    </section>
+
+    <div
+      class="project-info"
+      id="project-info-panel"
+      data-project-info-panel
+      hidden
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="project-info-title"
+    >
+      <button
+        class="project-info__close"
+        type="button"
+        aria-label="Close project information"
+        data-project-info-close
+      >
+        <img src="/close.svg" alt="" aria-hidden="true" />
+      </button>
+
+      <div class="project-info__content">
+        <h2 class="project-info__title" id="project-info-title">
+          {project.title}
+        </h2>
+        <p>{project.info}</p>
+      </div>
+    </div>
+  </main>
+
+  <script is:inline>
+    const page = document.querySelector(".page--project-detail");
+    const infoOpenButton = page?.querySelector("[data-project-info-open]");
+    const infoCloseButton = page?.querySelector("[data-project-info-close]");
+    const infoPanel = page?.querySelector("[data-project-info-panel]");
+
+    const setInfoState = (open) => {
+      if (!infoOpenButton || !infoPanel) {
+        return;
+      }
+
+      infoPanel.hidden = !open;
+      document.body.classList.toggle("project-info-open", open);
+      infoOpenButton.setAttribute("aria-expanded", String(open));
+
+      if (open) {
+        infoCloseButton?.focus();
+      } else {
+        infoOpenButton.focus();
+      }
+    };
+
+    infoOpenButton?.addEventListener("click", () => setInfoState(true));
+    infoCloseButton?.addEventListener("click", () => setInfoState(false));
+
+    infoPanel?.addEventListener("click", (event) => {
+      if (event.target === infoPanel) {
+        setInfoState(false);
+      }
+    });
+
+    window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && infoPanel && !infoPanel.hidden) {
+        setInfoState(false);
+      }
+    });
+  </script>
+</Layout>
