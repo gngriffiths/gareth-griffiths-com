@@ -108,6 +108,16 @@ import { projects } from "../data/projects";
 
       projectsGrid.replaceChildren(...rowElements);
 
+      const projectImages = Array.from(
+        projectsGrid.querySelectorAll(".project-card__image"),
+      );
+
+      function scheduleDrips() {
+        requestAnimationFrame(function () {
+          requestAnimationFrame(spawnDrips);
+        });
+      }
+
       // ── Paint drip effect ──────────────────────────────
       function spawnDrips() {
         var page = document.querySelector(".page--projects");
@@ -212,15 +222,22 @@ import { projects } from "../data/projects";
       }
 
       if (document.readyState === "complete") {
-        spawnDrips();
+        scheduleDrips();
       } else {
-        window.addEventListener("load", spawnDrips);
+        window.addEventListener("load", scheduleDrips, { once: true });
       }
+
+      projectImages.forEach(function (image) {
+        if (!image.complete) {
+          image.addEventListener("load", scheduleDrips, { once: true });
+          image.addEventListener("error", scheduleDrips, { once: true });
+        }
+      });
 
       var resizeTimer;
       window.addEventListener("resize", function () {
         clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(spawnDrips, 300);
+        resizeTimer = setTimeout(scheduleDrips, 300);
       });
     }
   </script>

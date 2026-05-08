@@ -38,6 +38,21 @@ export const projects: Project[] = projectImageFiles.map((file, index) => {
     };
   }
 
+  if (index === 1) {
+    return {
+      slug: "heineken",
+      title: "Heineken",
+      coverImage,
+      videoEmbedUrl: "https://www.youtube.com/embed/iDPY4ZQyWDo?rel=0",
+      galleryImages: [
+        "/media/projects/heineken/heineken-1.png",
+        "/media/projects/heineken/heineken-2.png",
+      ],
+      info: "Project information will be added here soon.",
+      description: "Heineken project preview",
+    };
+  }
+
   return {
     slug: `project-${number}`,
     title: `Project ${number}`,
