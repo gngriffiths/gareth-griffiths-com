@@ -3,6 +3,7 @@ export type Project = {
   title: string;
   coverImage: string;
   videoEmbedUrl?: string;
+  webAppUrl?: string;
   galleryImages: string[];
   info: string;
   description: string;
@@ -16,6 +17,7 @@ const projectImageFiles = [
   "project (5).jpg",
   "project (6).jpg",
   "project (7).jpg",
+  "project (8).png",
 ] as const;
 
 export const projects: Project[] = projectImageFiles.map((file, index) => {
@@ -125,6 +127,21 @@ export const projects: Project[] = projectImageFiles.map((file, index) => {
       ],
       info: "Project information will be added here soon.",
       description: "Bacardi project preview",
+    };
+  }
+
+  if (index === 7) {
+    return {
+      slug: "androids-dream",
+      title: "Androids Dream",
+      coverImage,
+      webAppUrl: "/unity-scene/index.html",
+      galleryImages: [
+        "/media/projects/androids-dream/androids-dream-1.png",
+        "/media/projects/androids-dream/androids-dream-2.png",
+      ],
+      info: "Project information will be added here soon.",
+      description: "Androids Dream project preview",
     };
   }
 

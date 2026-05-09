@@ -40,7 +40,14 @@ if (!project) {
 
       <div class="project-detail__video-shell">
         {
-          project.videoEmbedUrl ? (
+          project.webAppUrl ? (
+            <iframe
+              class="project-detail__video"
+              src={project.webAppUrl}
+              title={`${project.title} web app`}
+              loading="lazy"
+            />
+          ) : project.videoEmbedUrl ? (
             <iframe
               class="project-detail__video"
               src={project.videoEmbedUrl}

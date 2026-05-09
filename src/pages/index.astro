@@ -45,7 +45,7 @@ import { projects } from "../data/projects";
       const cards = Array.from(
         projectsGrid.querySelectorAll(".project-card"),
       ).map((card) => {
-        const width = randomBetween(30, 47);
+        const width = randomBetween(20, 35);
         const rotation = randomBetween(-10, 10);
 
         card.style.setProperty("--card-width", `${width}vw`);
@@ -152,13 +152,13 @@ import { projects } from "../data/projects";
             var color = COLORS[Math.floor(Math.random() * COLORS.length)];
             var stemW = Math.random() * 25 + 12;
             var bulbR = stemW / 2;
-            var stemH = Math.random() * 180 + 140;
+            var stemH = Math.random() * 180 + 250;
             var svgW = Math.ceil(stemW + 4);
             var cx = svgW / 2;
             var xPos =
               relLeft + (0.1 + Math.random() * 0.8) * cardRect.width - cx;
-            var delayMs = Math.random() * 500;
-            var durMs = Math.random() * 12000 + 6000;
+            var delayMs = Math.random() * 150;
+            var durMs = Math.random() * 5000 + 2500;
             var timing = {
               duration: durMs,
               delay: delayMs,
