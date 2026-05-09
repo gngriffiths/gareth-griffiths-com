@@ -18,6 +18,10 @@ const projectImageFiles = [
   "project (6).jpg",
   "project (7).jpg",
   "project (8).png",
+  "project (9).png",
+  "project (10).png",
+  "project (11).png",
+  "project (12).png",
 ] as const;
 
 export const projects: Project[] = projectImageFiles.map((file, index) => {
@@ -142,6 +146,66 @@ export const projects: Project[] = projectImageFiles.map((file, index) => {
       ],
       info: "Project information will be added here soon.",
       description: "Androids Dream project preview",
+    };
+  }
+
+  if (index === 8) {
+    return {
+      slug: "tt-motorcycle-school",
+      title: "TT Motorcycle School",
+      coverImage,
+      videoEmbedUrl: "https://www.youtube.com/embed/7vW8wr4tEkY?rel=0",
+      galleryImages: [
+        "/media/projects/tt-motorcycle-school/tt-motorycle-1.png",
+        "/media/projects/tt-motorcycle-school/tt-motorycle-2.png",
+      ],
+      info: "Project information will be added here soon.",
+      description: "TT Motorcycle School project preview",
+    };
+  }
+
+  if (index === 9) {
+    return {
+      slug: "sprinkles",
+      title: "Sprinkles",
+      coverImage,
+      videoEmbedUrl: "https://www.youtube.com/embed/1_ImOyM18AA?rel=0",
+      galleryImages: [
+        "/media/projects/sprinkles/sprinkles-1.png",
+        "/media/projects/sprinkles/sprinkles-2.png",
+      ],
+      info: "Project information will be added here soon.",
+      description: "Sprinkles project preview",
+    };
+  }
+
+  if (index === 10) {
+    return {
+      slug: "perfect-eye",
+      title: "Perfect Eye",
+      coverImage,
+      videoEmbedUrl: "https://www.youtube.com/embed/Rh_YoU-F4c0?rel=0",
+      galleryImages: [
+        "/media/projects/perfect-eye/perfect-eye (1).png",
+        "/media/projects/perfect-eye/perfect-eye (2).png",
+      ],
+      info: "Project information will be added here soon.",
+      description: "Perfect Eye project preview",
+    };
+  }
+
+  if (index === 11) {
+    return {
+      slug: "foodtopia",
+      title: "Foodtopia",
+      coverImage,
+      videoEmbedUrl: "https://www.youtube.com/embed/GqGfsr4SM6g?rel=0",
+      galleryImages: [
+        "/media/projects/foodtopia/foodtopia-1.png",
+        "/media/projects/foodtopia/foodtopia-2.png",
+      ],
+      info: "Project information will be added here soon.",
+      description: "Foodtopia project preview",
     };
   }
 
