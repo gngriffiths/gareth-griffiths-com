@@ -444,7 +444,6 @@ body[data-theme="dark"] .project-info__close img {
 .about-image {
   border: 1px solid var(--line);
   background: var(--surface);
-  aspect-ratio: 4 / 5;
   overflow: hidden;
 }
 
@@ -452,7 +451,7 @@ body[data-theme="dark"] .project-info__close img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(100%);
+  /* filter: grayscale(100%); */
 }
 
 .about-links {
@@ -476,9 +475,9 @@ body[data-theme="dark"] .project-info__close img {
 }
 
 .contact-panel {
-  border: 1px solid var(--line);
+  border: 0px solid var(--line);
   background:
-    linear-gradient(135deg, transparent 0 62%, rgba(0, 0, 0, 0.06) 62% 100%),
+    linear-gradient(135deg, transparent 0 62%, rgba(0, 0, 0, 0.83) 62% 100%),
     var(--surface);
   padding: 1rem;
 }
