@@ -30,6 +30,7 @@ import { projects } from "../data/projects";
     const projectsGrid = document.querySelector(".projects-grid");
 
     if (projectsGrid) {
+      const isMobile = window.matchMedia("(max-width: 719px)").matches;
       const maxRowWidth = 88;
       const maxRowOffset = 22;
       const maxCardsPerRow = 2;
@@ -45,7 +46,7 @@ import { projects } from "../data/projects";
       const cards = Array.from(
         projectsGrid.querySelectorAll(".project-card"),
       ).map((card) => {
-        const width = randomBetween(20, 35);
+        const width = randomBetween(20, 30) * (isMobile ? 2 : 1);
         const rotation = randomBetween(-10, 10);
 
         card.style.setProperty("--card-width", `${width}vw`);
@@ -132,6 +133,7 @@ import { projects } from "../data/projects";
         page.insertBefore(dripLayer, page.firstChild);
 
         var pageRect = page.getBoundingClientRect();
+        var isMobile = window.matchMedia("(max-width: 720px)").matches;
         var COLORS = [
           "#FFE551",
           "#d765c0",
@@ -150,9 +152,9 @@ import { projects } from "../data/projects";
 
           for (var i = 0; i < count; i++) {
             var color = COLORS[Math.floor(Math.random() * COLORS.length)];
-            var stemW = Math.random() * 25 + 12;
+            var stemW = (Math.random() * 25 + 12) * (isMobile ? 0.5 : 1);
             var bulbR = stemW / 2;
-            var stemH = Math.random() * 180 + 250;
+            var stemH = (Math.random() * 180 + 250) * (isMobile ? 0.4 : 1);
             var svgW = Math.ceil(stemW + 4);
             var cx = svgW / 2;
             var xPos =
