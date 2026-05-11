@@ -237,7 +237,15 @@ import { projects } from "../data/projects";
       });
 
       var resizeTimer;
+      var lastViewportWidth = window.innerWidth;
       window.addEventListener("resize", function () {
+        var currentViewportWidth = window.innerWidth;
+
+        if (currentViewportWidth === lastViewportWidth) {
+          return;
+        }
+
+        lastViewportWidth = currentViewportWidth;
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(scheduleDrips, 300);
       });
