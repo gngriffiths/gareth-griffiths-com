@@ -1,5 +1,6 @@
 :root {
   --bg: #ffffff;
+  --bg-rgb: 255, 255, 255;
   --fg: #0d0d0d;
   --muted: rgba(13, 13, 13, 0.68);
   --line: rgba(13, 13, 13, 0.14);
@@ -37,6 +38,7 @@ body {
 
 body[data-theme="dark"] {
   --bg: #050505;
+  --bg-rgb: 5, 5, 5;
   --fg: #f5f5f5;
   --muted: rgba(245, 245, 245, 0.72);
   --line: rgba(245, 245, 245, 0.18);
@@ -402,7 +404,7 @@ body[data-theme="dark"] .project-info__close img {
   position: fixed;
   inset: 0;
   z-index: 40;
-  background: var(--bg);
+  background: rgba(var(--bg-rgb), 1);
   color: var(--fg);
   padding: 1rem;
 }
@@ -414,13 +416,13 @@ body[data-theme="dark"] .project-info__close img {
 }
 
 .project-info__content {
-  width: min(100%, 42rem);
+  width: min(100%, 48rem);
   min-height: calc(100vh - 2rem);
   margin: 0 auto;
   display: grid;
   align-content: center;
-  justify-items: center;
-  text-align: center;
+  justify-items: start;
+  text-align: left;
   gap: 1rem;
 }
 
@@ -433,6 +435,35 @@ body[data-theme="dark"] .project-info__close img {
 
 .project-info__content p {
   margin: 0;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.project-info__body {
+  display: grid;
+  gap: 1rem;
+  text-align: left;
+}
+
+.project-info__body h1,
+.project-info__body h2,
+.project-info__body p {
+  margin: 0;
+}
+
+.project-info__body h1 {
+  font-size: clamp(2rem, 6vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: -0.08em;
+}
+
+.project-info__body h2 {
+  font-size: clamp(1.15rem, 3vw, 1.7rem);
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.project-info__body p {
   font-size: 1.05rem;
   line-height: 1.7;
 }

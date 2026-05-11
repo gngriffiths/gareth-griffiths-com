@@ -6,6 +6,7 @@ export type Project = {
   webAppUrl?: string;
   galleryImages: string[];
   info: string;
+  infoHtml?: string;
   description: string;
 };
 
@@ -39,7 +40,16 @@ export const projects: Project[] = projectImageFiles.map((file, index) => {
         "/media/projects/swatch/swatch-2.png",
       ],
       info:
-        "Swatch brings the project together as a single video-led presentation with supporting stills shown underneath.",
+        "Swatch: Skin Interactive Campaign is an interactive digital experience exploring the concept of time.",
+      infoHtml: `
+        <h1>Skin Campaign</h1>
+        <h2>An interactive digital experience exploring the concept of time.</h2>
+        <p>I was commissioned by Swatch to bring their creative vision to life for the global launch of the Swatch Skin watch line.</p>
+        <h2>The Challenge</h2>
+        <p>The project brief arrived as a static series of PDF images. The goal was to translate these flat concepts into a dynamic, flowing digital experience that would captivate users in retail environments.</p>
+        <h2>The Solution</h2>
+        <p>Using a blend of real-time animation, high-quality video, and 3D elements, I developed an interactive software experience that feels completely fluid and responsive. The final application was deployed on interactive touch screens installed in Swatch flagship stores across Europe.</p>
+      `,
       description: "Swatch project preview",
     };
   }

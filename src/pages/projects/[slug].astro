@@ -105,7 +105,13 @@ if (!project) {
         <h2 class="project-info__title" id="project-info-title">
           {project.title}
         </h2>
-        <p>{project.info}</p>
+        {
+          project.infoHtml ? (
+            <div class="project-info__body" set:html={project.infoHtml}></div>
+          ) : (
+            <p>{project.info}</p>
+          )
+        }
       </div>
     </div>
   </main>
