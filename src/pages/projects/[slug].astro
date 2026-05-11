@@ -102,14 +102,20 @@ if (!project) {
       </button>
 
       <div class="project-info__content">
-        <h2 class="project-info__title" id="project-info-title">
-          {project.title}
-        </h2>
         {
           project.infoHtml ? (
-            <div class="project-info__body" set:html={project.infoHtml}></div>
+            <div
+              class="project-info__body"
+              id="project-info-title"
+              set:html={project.infoHtml}
+            ></div>
           ) : (
-            <p>{project.info}</p>
+            <>
+              <h2 class="project-info__title" id="project-info-title">
+                {project.title}
+              </h2>
+              <p>{project.info}</p>
+            </>
           )
         }
       </div>

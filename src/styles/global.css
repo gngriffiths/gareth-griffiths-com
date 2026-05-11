@@ -447,7 +447,9 @@ body[data-theme="dark"] .project-info__close img {
 
 .project-info__body h1,
 .project-info__body h2,
-.project-info__body p {
+.project-info__body h3,
+.project-info__body p,
+.project-info__body ul {
   margin: 0;
 }
 
@@ -463,9 +465,31 @@ body[data-theme="dark"] .project-info__close img {
   letter-spacing: -0.03em;
 }
 
+.project-info__body h3 {
+  font-size: clamp(1.05rem, 2.4vw, 1.4rem);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
 .project-info__body p {
   font-size: 1.05rem;
   line-height: 1.7;
+}
+
+.project-info__body ul {
+  padding-left: 1.25rem;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.project-info__body li {
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.project-info__body a {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
 }
 
 .about-layout {
