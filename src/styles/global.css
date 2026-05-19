@@ -470,6 +470,14 @@ body[data-theme="dark"] .project-info__close img {
   text-align: left;
 }
 
+.project-info__brand-image {
+  display: block;
+  width: min(100%, 12rem);
+  height: auto;
+  justify-self: center;
+  margin: 0 auto 0.5rem;
+}
+
 .project-info__body h1,
 .project-info__body h2,
 .project-info__body h3,

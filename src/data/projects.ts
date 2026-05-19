@@ -104,6 +104,7 @@ export const projects: Project[] = projectImageFiles
       info:
         "Hermes: Interactive Monolith is a bespoke interactive light sculpture created for an exclusive Hermès VIP event.",
       infoHtml: `
+        <img class="project-info__brand-image" src="/media/projects/hermes/hermes-logo.png" alt="Hermès logo" loading="lazy" />
         <h2>Hermès: Interactive Monolith</h2>
         <p><strong>A bespoke interactive light sculpture for an exclusive Hermès VIP event.</strong></p>
         <p>For an exclusive customer event in Geneva, Switzerland, Hermès curated a collection of bespoke interactive artworks designed to blend luxury with cutting-edge digital art.</p>
