@@ -12,6 +12,9 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@fontsource-variable/fredoka": "^5.2.10",
+    "@fontsource-variable/inconsolata": "^5.2.8",
+    "@fontsource/rubik-glitch": "^5.2.7",
     "astro": "^6.2.2"
   }
 }
