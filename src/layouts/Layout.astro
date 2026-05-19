@@ -41,7 +41,18 @@ const navLinks = [
   </head>
   <body class={bodyClass} data-theme="light">
     <header class="site-header">
-      <a class="site-header__brand" href="/">Gareth Griffiths</a>
+      <div class="site-header__identity">
+        <a class="site-header__brand" href="/">Gareth Griffiths</a>
+        {
+          pagePath === "/" && (
+            <p class="site-header__strapline">
+              An immersive technology and interactive product developer who
+              helps organisations translate complex information into engaging
+              digital experiences
+            </p>
+          )
+        }
+      </div>
 
       <div class="site-header__actions">
         <button
